@@ -11,7 +11,7 @@ CONFIG = {
     "bq_dataset": "mv_master_fake",
 
     # API endpoint for PeerDB mirror creation (valid for v0.23+)
-    "api_url": "http://flow-api.peerdb.svc.cluster.local:8113/api/v1/flows/cdc/create",
+    "api_url": "http://flow-api.peerdb.svc.cluster.local:8113/api/v1/mirror",
 
     # This must match your PeerDB deployment UID set during Helm installation
     "deployment_uid": "peerdb-test004-private-do",
