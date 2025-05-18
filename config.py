@@ -8,6 +8,7 @@ CONFIG = {
     "bq_project": "crest-test004-project",
     "bq_dataset": "mv_master_fake",
     "api_url": "http://flow-api.peerdb.svc.cluster.local:8113/api/v1/mirror",
+    "deployment_uid": "peerdb-test004-private-do",
     "schemas": [f"customer_schema_{i}" for i in range(1, 51)],
     "num_workers": 6,
     "mutation_loops": 60,

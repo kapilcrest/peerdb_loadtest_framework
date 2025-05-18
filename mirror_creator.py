@@ -14,8 +14,12 @@ def create_mirror(schema_name):
         "cdc": True
     }
     start = time.time()
+    headers = {
+        "X-PeerDB-Deployment-UID": CONFIG.get("deployment_uid", "peerdb-test004-private-do"),
+        "Content-Type": "application/json"
+    }
     try:
-        r = requests.post(CONFIG["api_url"], json=payload, timeout=5)
+        r = requests.post(CONFIG["api_url"], json=payload,headers=headers, timeout=5)
     except Exception as e:
         print(f"❌ API request to create mirror for {schema_name} failed: {e}", flush=True)
         return {
