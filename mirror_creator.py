@@ -14,8 +14,17 @@ def create_mirror(schema_name):
         "cdc": True
     }
     start = time.time()
-    r = requests.post(CONFIG["api_url"], json=payload)
-    end = time.time()
+    try:
+        r = requests.post(CONFIG["api_url"], json=payload, timeout=5)
+    except Exception as e:
+        print(f"❌ API request to create mirror for {schema_name} failed: {e}", flush=True)
+        return {
+            "schema": schema_name,
+            "status": "timeout",
+            "duration_sec": 0,
+            "error": str(e)
+        }
+        end = time.time()
     return {
         "schema": schema_name,
         "status": r.status_code,
