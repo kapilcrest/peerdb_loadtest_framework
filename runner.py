@@ -10,14 +10,20 @@ from logger import CSVLogger
 logger = CSVLogger(CONFIG["log_csv"])
 
 def worker(schema_name):
+    print(f"🧪 Starting worker for schema: {schema_name}", flush=True)
     mirror = create_mirror(schema_name)
+    print(f"🛰️ Mirror response for {schema_name}: {mirror}", flush=True)
     logger.log(schema_name, "mirror_creation_time", mirror["duration_sec"])
     if mirror["error"]:
+        print(f"❌ Mirror error for {schema_name}: {mirror['error']}", flush=True)
         logger.log(schema_name, "mirror_creation_error", mirror["error"])
         return
-
-    conn = psycopg2.connect(CONFIG["pg_conn_str"])
+    try:
+        conn = psycopg2.connect(CONFIG["pg_conn_str"])
+    except Exception as e:
+        print(f"❌ Failed to connect to Postgres for {schema_name}: {e}", flush=True)
     for i in range(CONFIG["mutation_loops"]):
+        print(f"🔁 Round {i+1} - mutating schema: {schema_name}", flush=True)
         mutate_schema(conn, schema_name, CONFIG["tables_per_schema"])
         logger.log(schema_name, "mutation_round", i + 1)
         time.sleep(CONFIG["mutation_interval_sec"])
