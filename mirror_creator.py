@@ -6,31 +6,42 @@ def create_mirror(schema_name):
     publication_name = CONFIG["publication_name_template"].format(schema=schema_name)
     mirror_name = f"mirror_{schema_name}"
 
-    table_mappings = [
-        {
-            "source_table_identifier": f"{schema_name}.table_{i}",
-            "destination_table_identifier": f"table_{i}"
-        }
-        for i in range(1, CONFIG["tables_per_schema"] + 1)
-    ]
-
     payload = {
-        "connection_configs": {
-            "flow_job_name": mirror_name,
-            "source_name": CONFIG["source_peer_name"],
-            "destination_name": CONFIG["destination_peer_name"],
-            "table_mappings": table_mappings,
-            "do_initial_snapshot": True,
-            "max_batch_size": 1000,
-            "idle_timeout_seconds": 300,
-            "publication_name": publication_name,
-            "snapshot_num_rows_per_partition": 5000,
-            "snapshot_max_parallel_workers": 4,
-            "snapshot_num_tables_in_parallel": 2,
+        "connectionConfigs": {
+            "sourceName": "postgresloadtesting",
+            "destinationName": "bigquery",
+            "flowJobName": mirror_name,
+            "publicationName": publication_name,
+            "tableMappings": [
+                {
+                    "sourceTableIdentifier": f"{schema_name}.table_{i}",
+                    "destinationTableIdentifier": f"{schema_name}_table_{i}",
+                    "engine": 0,  # use engine=0 for default
+                    "exclude": [],
+                    "columns": [],
+                    "partitionKey": ""
+                }
+                for i in range(1, CONFIG["tables_per_schema"] + 1)
+            ],
+            "doInitialSnapshot": True,
+            "maxBatchSize": 250000,
+            "idleTimeoutSeconds": 60,
+            "publicationName": "",
+            "snapshotNumRowsPerPartition": 250000,
+            "snapshotMaxParallelWorkers": 4,
+            "snapshotNumTablesInParallel": 1,
             "resync": False,
-            "initial_snapshot_only": False,
-            "soft_delete_col_name": "_peerdb_is_deleted",
-            "synced_at_col_name": "_peerdb_synced_at"
+            "softDeleteColName": "_PEERDB_IS_DELETED",
+            "syncedAtColName": "_PEERDB_SYNCED_AT",
+            "initialSnapshotOnly": False,
+            "script": "",
+            "system": 0,
+            "disablePeerDBColumns": False,
+            "replicationSlotName": "",
+            "cdcStagingPath": "",
+            "snapshotStagingPath": "",
+            "env": {},
+            "envString": ""
         }
     }
 
