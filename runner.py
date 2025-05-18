@@ -1,11 +1,11 @@
 import multiprocessing
 import time
 import psycopg2
-from peerdb_loadtest_framework.config import CONFIG
-from peerdb_loadtest_framework.mirror_creator import create_mirror
-from peerdb_loadtest_framework.data_mutator import mutate_schema
-from peerdb_loadtest_framework.lag_checker import check_lag
-from peerdb_loadtest_framework.logger import CSVLogger
+from config import CONFIG
+from mirror_creator import create_mirror
+from data_mutator import mutate_schema
+from lag_checker import check_lag
+from logger import CSVLogger
 
 logger = CSVLogger(CONFIG["log_csv"])
 

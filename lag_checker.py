@@ -1,7 +1,7 @@
 import psycopg2
 from google.cloud import bigquery
 from datetime import datetime
-from peerdb_loadtest_framework.config import CONFIG
+from config import CONFIG
 
 def check_lag(pg_conn, schema, table):
     cur = pg_conn.cursor()

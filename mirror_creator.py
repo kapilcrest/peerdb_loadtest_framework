@@ -1,6 +1,6 @@
 import requests
 import time
-from peerdb_loadtest_framework.config import CONFIG
+from config import CONFIG
 
 def create_mirror(schema_name):
     payload = {
