@@ -4,7 +4,7 @@ from config import CONFIG
 
 def create_mirror(schema_name):
     mirror_name = f"mirror_{schema_name}"
-    conn = psycopg2.connect(CONFIG["pg_conn_str"])
+    conn = psycopg2.connect(CONFIG["catalog_conn_str"])
     cur = conn.cursor()
 
     start = time.time()
