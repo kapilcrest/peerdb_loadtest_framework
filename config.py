@@ -40,5 +40,5 @@ CONFIG = {
 
     # Optional: publication name pattern if you follow "pub_{schema}" convention
     "publication_name_template": "pub_{schema}",
-    "peerdbui_password": "cGVlcmRi"
+    "peerdbui_password": "OnBlZXJkYg=="
 }
