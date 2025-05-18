@@ -26,7 +26,6 @@ def create_mirror(schema_name):
             "doInitialSnapshot": True,
             "maxBatchSize": 250000,
             "idleTimeoutSeconds": 60,
-            "publicationName": "",
             "snapshotNumRowsPerPartition": 250000,
             "snapshotMaxParallelWorkers": 4,
             "snapshotNumTablesInParallel": 1,

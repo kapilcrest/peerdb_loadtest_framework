@@ -22,9 +22,15 @@ def worker(schema_name):
             mutate_schema(conn, schema_name, CONFIG["tables_per_schema"])
             logger.log(schema_name, "mutation_round", i + 1)
             time.sleep(CONFIG["mutation_interval_sec"])
-            lag = check_lag(conn, schema_name, "table_1")
-            if lag:
-                logger.log(schema_name, "cdc_lag_sec", lag)
+
+            max_lag = 0
+            for t in range(1, CONFIG["tables_per_schema"] + 1):
+                table = f"table_{t}"
+                lag = check_lag(conn, schema_name, table)
+                if lag is not None:
+                    max_lag = max(max_lag, lag)
+
+            logger.log(schema_name, "max_cdc_lag_sec", max_lag)
         conn.close()
     except Exception as e:
         logger.log(schema_name, "worker_exception", str(e))
