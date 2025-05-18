@@ -29,3 +29,6 @@ def worker(schema_name):
 def run_all():
     with multiprocessing.Pool(CONFIG["num_workers"]) as pool:
         pool.map(worker, CONFIG["schemas"])
+
+if __name__ == "__main__":
+    run_all()
