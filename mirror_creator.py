@@ -46,7 +46,8 @@ def create_mirror(schema_name):
 
     headers = {
         "X-PeerDB-Deployment-UID": CONFIG["deployment_uid"],
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": f"Basic {CONFIG['peerdbui_password']}"
     }
 
     print(f"📦 Sending mirror create request for {schema_name} to {CONFIG['api_url']}", flush=True)
