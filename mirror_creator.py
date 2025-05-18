@@ -24,7 +24,7 @@ def create_mirror(schema_name):
             "duration_sec": 0,
             "error": str(e)
         }
-        end = time.time()
+    end = time.time()
     return {
         "schema": schema_name,
         "status": r.status_code,
