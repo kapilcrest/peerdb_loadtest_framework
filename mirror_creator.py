@@ -45,7 +45,6 @@ def create_mirror(schema_name):
     }
 
     headers = {
-        "X-PeerDB-Deployment-UID": CONFIG["deployment_uid"],
         "Content-Type": "application/json",
         "Authorization": f"Basic {CONFIG['peerdbui_password']}"
     }
