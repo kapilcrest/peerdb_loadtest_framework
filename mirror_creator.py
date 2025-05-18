@@ -3,6 +3,7 @@ import time
 from config import CONFIG
 
 def create_mirror(schema_name):
+    publication_name = CONFIG["publication_name_template"].format(schema=schema_name)
     mirror_name = f"mirror_{schema_name}"
 
     table_mappings = [
@@ -16,13 +17,13 @@ def create_mirror(schema_name):
     payload = {
         "connection_configs": {
             "flow_job_name": mirror_name,
-            "source_name": "postgresloadtesting",
-            "destination_name": "bigquery",
+            "source_name": CONFIG["source_peer_name"],
+            "destination_name": CONFIG["destination_peer_name"],
             "table_mappings": table_mappings,
             "do_initial_snapshot": True,
             "max_batch_size": 1000,
             "idle_timeout_seconds": 300,
-            "publication_name": "",
+            "publication_name": publication_name,
             "snapshot_num_rows_per_partition": 5000,
             "snapshot_max_parallel_workers": 4,
             "snapshot_num_tables_in_parallel": 2,
