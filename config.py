@@ -4,7 +4,6 @@ CONFIG = {
     "pg_conn_str": f"dbname=master_data_fake user={os.getenv('PG_USER', 'postgres')} "
                    f"password={os.getenv('PG_PASSWORD', '')} "
                    f"host=postgresql-hl.postgresql.svc.cluster.local port=5432",
-    "catalog_conn_str": "postgresql://postgres:q%3ElWxeogRW+pNUwWOC%5D;XZft@catalog-pg-primary.peerdb.svc:5432/postgres",
 
     "bq_project": "crest-test004-project",
     "bq_dataset": "mv_master_fake",
