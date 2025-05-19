@@ -18,7 +18,9 @@ def worker(schema_name):
         #     return
 
         conn = psycopg2.connect(CONFIG["pg_conn_str"])
+        print("Connected to database",conn)
         for i in range(CONFIG["mutation_loops"]):
+            print("mutating schema")
             mutate_schema(conn, schema_name, CONFIG["tables_per_schema"])
             logger.log(schema_name, "mutation_round", i + 1)
             time.sleep(CONFIG["mutation_interval_sec"])
