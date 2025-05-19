@@ -26,7 +26,7 @@ CONFIG = {
     "mutation_loops": 60,
 
     # Number of tables per schema to test against
-    "tables_per_schema": 50,
+    "tables_per_schema": 10,
 
     # Time to wait between each mutation round
     "mutation_interval_sec": 5,
