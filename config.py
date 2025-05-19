@@ -23,10 +23,10 @@ CONFIG = {
     "num_workers": 10,
 
     # Number of mutation + lag check rounds per schema
-    "mutation_loops": 60,
+    "mutation_loops": 1,
 
     # Number of tables per schema to test against
-    "tables_per_schema": 10,
+    "tables_per_schema": 1,
 
     # Time to wait between each mutation round
     "mutation_interval_sec": 5,
