@@ -36,7 +36,7 @@ CONFIG = {
 
     # Source and destination peer names as defined in PeerDB UI or peer creation API
     "source_peer_name": "postgresloadtesting",
-    "destination_peer_name": "bigquery",
+    "destination_peer_name": "bigqueryloadtesting",
 
     # Optional: publication name pattern if you follow "pub_{schema}" convention
     "publication_name_template": "pub_{schema}",
