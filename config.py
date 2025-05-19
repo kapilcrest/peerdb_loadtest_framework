@@ -2,13 +2,13 @@ import os
 
 CONFIG = {
     # This is the connection string used for mutation and lag-checking, not for PeerDB itself.
-    "pg_conn_str": f"dbname=master_data_fake user={os.getenv('PG_USER', 'postgres')} "
+    "pg_conn_str": f"dbname=master_data_fake user={os.getenv('PG_USER', 'peerdb_user')} "
                    f"password={os.getenv('PG_PASSWORD', '')} "
                    f"host=postgresql-hl.postgresql.svc.cluster.local port=5432",
 
     # Google BigQuery project and dataset for destination
     "bq_project": "crest-test004-project",
-    "bq_dataset": "mv_master_fake",
+    "bq_dataset": "master_data_fake",
 
     # API endpoint for PeerDB mirror creation (valid for v0.23+)
     "api_url": "http://peerdb-ui.peerdb.svc.cluster.local:3000/api/v1/flows/cdc/create",
