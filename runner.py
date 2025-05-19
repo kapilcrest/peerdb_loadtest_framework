@@ -11,51 +11,39 @@ logger = CSVLogger(CONFIG["log_csv"])
 
 def worker(schema_name):
     try:
-        # Skip mirror creation since they're already created
-        print(f"Connecting to database for schema: {schema_name}")
+        # Mirrors already created
         conn = psycopg2.connect(CONFIG["pg_conn_str"])
-        print(f"Connected to database for schema: {schema_name}")
+        print(f"✅ Connected to DB for {schema_name}")
 
         for i in range(CONFIG["mutation_loops"]):
-            print(f"🔁 Mutation round {i + 1} for {schema_name}")
-            
-            # Run the mutation and collect stats
+            start = time.time()
             mutation_stats = mutate_schema(conn, schema_name, CONFIG["tables_per_schema"])
-            total_changes = 0
-            tables_mutated = 0
+            duration = round(time.time() - start, 2)
 
-            for stat in mutation_stats:
-                table = stat["table"]
-                inserted = stat["inserted"]
-                updated = stat["updated"]
-                deleted = stat["deleted"]
-                total = inserted + updated + deleted
-
-                if total > 0:
-                    tables_mutated += 1
-                    logger.log(schema_name, f"{table}_inserted", inserted)
-                    logger.log(schema_name, f"{table}_updated", updated)
-                    logger.log(schema_name, f"{table}_deleted", deleted)
-
-                total_changes += total
-
-            # Log total changes and tables mutated in this round
-            logger.log(schema_name, "tables_mutated", tables_mutated)
-            logger.log(schema_name, "total_changes", total_changes)
             logger.log(schema_name, "mutation_round", i + 1)
+            logger.log(schema_name, "mutation_duration_sec", duration)
+            logger.log(schema_name, "tables_mutated", mutation_stats["tables_mutated"])
+            logger.log(schema_name, "total_changes", mutation_stats["total_changes"])
+            logger.log(schema_name, "total_inserts", mutation_stats["total_inserts"])
+            logger.log(schema_name, "total_updates", mutation_stats["total_updates"])
+            logger.log(schema_name, "total_deletes", mutation_stats["total_deletes"])
 
-            # Sleep before measuring lag
-            time.sleep(CONFIG["mutation_interval_sec"])
+            # Per-table stats (optional, can comment out if too verbose)
+            for table, stats in mutation_stats["table_stats"].items():
+                for metric, count in stats.items():
+                    logger.log(schema_name, f"{metric}_{table}", count)
 
-            # Check max lag across all tables
+            # CDC lag per table
             max_lag = 0
             for t in range(1, CONFIG["tables_per_schema"] + 1):
                 table = f"table_{t}"
                 lag = check_lag(conn, schema_name, table)
                 if lag is not None:
+                    logger.log(schema_name, f"lag_{table}", lag)
                     max_lag = max(max_lag, lag)
 
             logger.log(schema_name, "max_cdc_lag_sec", max_lag)
+            time.sleep(CONFIG["mutation_interval_sec"])
 
         conn.close()
     except Exception as e:

@@ -26,13 +26,13 @@ CONFIG = {
     "mutation_loops": 60,
 
     # Number of tables per schema to test against
-    "tables_per_schema": 10,
+    "tables_per_schema": 50,
 
     # Time to wait between each mutation round
     "mutation_interval_sec": 5,
 
     # CSV log file to store timing and metrics
-    "log_csv": "metrics_log.csv",
+    "log_csv": "metrics_log_new.csv",
 
     # Source and destination peer names as defined in PeerDB UI or peer creation API
     "source_peer_name": "postgresloadtesting",
