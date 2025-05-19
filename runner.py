@@ -16,9 +16,7 @@ def worker(schema_name):
         # if mirror["error"]:
         #     logger.log(schema_name, "mirror_creation_error", mirror["error"])
         #     return
-        print("Connecting to database")
         conn = psycopg2.connect(CONFIG["pg_conn_str"])
-        print("Connected to database")
         for i in range(CONFIG["mutation_loops"]):
             print("mutating schema")
             mutate_schema(conn, schema_name, CONFIG["tables_per_schema"])
