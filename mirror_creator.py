@@ -8,8 +8,8 @@ def create_mirror(schema_name):
 
     payload = {
         "connectionConfigs": {
-            "sourceName": "postgresloadtesting",
-            "destinationName": "bigquery",
+            "sourceName": CONFIG["source_peer_name"],
+            "destinationName": CONFIG["destination_peer_name"],
             "flowJobName": mirror_name,
             "publicationName": publication_name,
             "tableMappings": [
