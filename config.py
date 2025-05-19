@@ -20,7 +20,7 @@ CONFIG = {
     "schemas": [f"customer_schema_{i}" for i in range(1, 2)],
 
     # Worker/threading config for multiprocessing
-    "num_workers": 6,
+    "num_workers": 10,
 
     # Number of mutation + lag check rounds per schema
     "mutation_loops": 60,
