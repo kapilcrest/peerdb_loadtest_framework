@@ -17,7 +17,7 @@ CONFIG = {
     "deployment_uid": "peerdb-test004-private-do",
 
     # Schemas to iterate over for mirror creation and load testing
-    "schemas": [f"customer_schema_{i}" for i in range(1, 51)],
+    "schemas": [f"customer_schema_{i}" for i in range(1, 2)],
 
     # Worker/threading config for multiprocessing
     "num_workers": 6,
