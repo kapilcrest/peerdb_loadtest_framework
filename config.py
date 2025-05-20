@@ -1,9 +1,9 @@
 import os
 
 CONFIG = {
-    "pg_conn_str": f"dbname=master_data_fake user={os.getenv('PG_USER', 'peerdb_user')} "
+    "pg_conn_str": f"dbname=master_data_fake user={os.getenv('PG_USER', 'psqlroot')} "
                    f"password={os.getenv('PG_PASSWORD', '')} "
-                   f"host=postgresql-hl.postgresql.svc.cluster.local port=5432",
+                   f"host=pgbouncer-service.default.svc.cluster.local port=5432",
 
     "bq_project": "crest-test004-project",
     "bq_dataset": "master_data_fake",
