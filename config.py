@@ -12,7 +12,7 @@ CONFIG = {
     "deployment_uid": "peerdb-test004-private-do",
 
     # 500 schemas
-    "schemas": [f"customer_schema_{i}" for i in range(1, 2)],
+    "schemas": [f"customer_schema_{i}" for i in range(1, 501)],
 
     # Increased workers
     "num_workers": 30,
