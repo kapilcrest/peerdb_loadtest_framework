@@ -17,7 +17,7 @@ CONFIG = {
     "deployment_uid": "peerdb-test004-private-do",
 
     # Schemas to iterate over for mirror creation and load testing
-    "schemas": [f"customer_schema_{i}" for i in range(1, 51)],
+    "schemas": [f"customer_schema_{i}" for i in range(51, 501)],
 
     # Worker/threading config for multiprocessing
     "num_workers": 10,
@@ -26,7 +26,7 @@ CONFIG = {
     "mutation_loops": 60,
 
     # Number of tables per schema to test against
-    "tables_per_schema": 10,
+    "tables_per_schema": 50,
 
     # Time to wait between each mutation round
     "mutation_interval_sec": 5,

@@ -11,6 +11,11 @@ logger = CSVLogger(CONFIG["log_csv"])
 
 def worker(schema_name):
     try:
+        mirror = create_mirror(schema_name)
+        logger.log(schema_name, "mirror_creation_time", mirror["duration_sec"])
+        if mirror["error"]:
+            logger.log(schema_name, "mirror_creation_error", mirror["error"])
+            return
         # Mirrors already created
         conn = psycopg2.connect(CONFIG["pg_conn_str"])
         print(f"✅ Connected to DB for {schema_name}")
