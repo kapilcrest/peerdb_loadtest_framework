@@ -1,6 +1,7 @@
 import requests
 import time
 from config import CONFIG
+import multiprocessing
 
 def create_mirror(schema_name):
     publication_name = CONFIG["publication_name_template"].format(schema=schema_name)
@@ -69,3 +70,10 @@ def create_mirror(schema_name):
             "duration_sec": 0,
             "error": str(e)
         }
+    
+def run_all():
+    with multiprocessing.Pool(CONFIG["num_workers"]) as pool:
+        pool.map(create_mirror, CONFIG["schemas"])
+
+if __name__ == "__main__":
+    run_all()

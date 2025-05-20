@@ -2,6 +2,7 @@ import multiprocessing
 import time
 import psycopg2
 from config import CONFIG
+from mirror_creator import create_mirror
 from data_mutator import mutate_schema
 from lag_checker import check_lag
 from logger import CSVLogger
@@ -10,6 +11,12 @@ logger = CSVLogger(CONFIG["log_csv"])
 
 def worker(schema_name):
     try:
+        # mirror = create_mirror(schema_name)
+        # logger.log(schema_name, "mirror_creation_time", mirror["duration_sec"])
+        # if mirror["error"]:
+        #     logger.log(schema_name, "mirror_creation_error", mirror["error"])
+        #     return
+        # Mirrors already created
         conn = psycopg2.connect(CONFIG["pg_conn_str"])
         print(f"✅ Connected to DB for {schema_name}")
 
@@ -26,11 +33,12 @@ def worker(schema_name):
             logger.log(schema_name, "total_updates", mutation_stats["total_updates"])
             logger.log(schema_name, "total_deletes", mutation_stats["total_deletes"])
 
+            # Per-table stats (optional, can comment out if too verbose)
             for table, stats in mutation_stats["table_stats"].items():
                 for metric, count in stats.items():
                     logger.log(schema_name, f"{metric}_{table}", count)
 
-            # CDC lag
+            # CDC lag per table
             max_lag = 0
             for t in range(1, CONFIG["tables_per_schema"] + 1):
                 table = f"table_{t}"
