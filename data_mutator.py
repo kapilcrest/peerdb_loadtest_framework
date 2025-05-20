@@ -17,17 +17,28 @@ def mutate_schema(conn, schema, table_count):
         inserted = updated = deleted = 0
 
         try:
-            # INSERT
-            cur.execute(f"INSERT INTO {schema}.{table} (name, email) VALUES (%s, %s)", (faker.name(), faker.email()))
-            inserted = 1
+            cur.execute(f"SELECT COUNT(*) FROM {schema}.{table}")
+            row_count = cur.fetchone()[0]
 
-            # UPDATE
-            cur.execute(f"UPDATE {schema}.{table} SET updated_at = now() WHERE random() < 0.01 RETURNING *")
-            updated = cur.rowcount
+            if row_count == 0:
+                print(f"🌱 Seeding {schema}.{table} with 10,000 rows...")
+                rows = [(faker.name(), faker.email()) for _ in range(10000)]
+                cur.executemany(f"INSERT INTO {schema}.{table} (name, email) VALUES (%s, %s)", rows)
+                inserted += 10000
+            else:
+                # Aggressive INSERTS
+                for _ in range(100):
+                    cur.execute(f"INSERT INTO {schema}.{table} (name, email) VALUES (%s, %s)",
+                                (faker.name(), faker.email()))
+                    inserted += 1
 
-            # DELETE
-            cur.execute(f"DELETE FROM {schema}.{table} WHERE random() < 0.005 RETURNING *")
-            deleted = cur.rowcount
+                # Aggressive UPDATES
+                cur.execute(f"UPDATE {schema}.{table} SET updated_at = now() WHERE random() < 0.10 RETURNING *")
+                updated = cur.rowcount
+
+                # Aggressive DELETES
+                cur.execute(f"DELETE FROM {schema}.{table} WHERE random() < 0.05 RETURNING *")
+                deleted = cur.rowcount
 
             if inserted + updated + deleted > 0:
                 tables_mutated += 1
