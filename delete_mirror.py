@@ -12,7 +12,7 @@ def delete_mirror(mirror_name):
         "requestedFlowState": "STATUS_TERMINATED"
     }
     resp = requests.post(url, json=payload, headers=headers)
-    print(f"🗑️ Deleting mirror {mirror_name} - Status: {resp.status_code}, Response: {resp.text}")
+    print(f"Deleting mirror {mirror_name} - Status: {resp.status_code}, Response: {resp.text}")
 
 # Example: loop through your mirror names
 for i in range(1, 501):
